@@ -24,6 +24,12 @@ export const Navigation = () => {
                 Camera Detection
               </Nav.Link>
             </LinkContainer>
+            <LinkContainer to="/realtime">
+              <Nav.Link>
+                <i className="bi bi-broadcast me-1"></i>
+                Real-time Detection
+              </Nav.Link>
+            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Container>
