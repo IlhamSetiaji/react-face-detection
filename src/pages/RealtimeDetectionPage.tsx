@@ -17,12 +17,14 @@ export const RealtimeDetectionPage = () => {
     detectionResult,
     isDetecting,
     currentConfidence,
+    emotionsEnabled,
     fps,
     videoRef,
     canvasRef,
     startRealtimeDetection,
     stopRealtimeDetection,
     setConfidence,
+    setEmotions,
   } = useRealtimeDetection();
 
   return (
@@ -59,10 +61,12 @@ export const RealtimeDetectionPage = () => {
                   isLoading={isLoading}
                   isDetecting={isDetecting}
                   currentConfidence={currentConfidence}
+                  emotionsEnabled={emotionsEnabled}
                   fps={fps}
                   onStartDetection={startRealtimeDetection}
                   onStopDetection={stopRealtimeDetection}
                   onConfidenceChange={setConfidence}
+                  onEmotionsChange={setEmotions}
                 />
               </Col>
               

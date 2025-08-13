@@ -69,6 +69,29 @@ export const DetectionResults = ({ result }: DetectionResultsProps) => {
                             Facial landmarks detected
                           </div>
                         )}
+                        {face.emotion && (
+                          <div className="mt-2">
+                            <div className="text-warning">
+                              <i className="bi bi-emoji-smile me-1"></i>
+                              <strong>{face.emotion.dominant_emotion}</strong> ({(face.emotion.confidence * 100).toFixed(1)}%)
+                            </div>
+                            <div className="small text-muted mt-1">
+                              <details>
+                                <summary style={{ cursor: 'pointer' }}>All emotions</summary>
+                                <div className="mt-1">
+                                  {Object.entries(face.emotion.all_emotions)
+                                    .sort(([,a], [,b]) => b - a)
+                                    .map(([emotion, confidence]) => (
+                                      <div key={emotion} className="d-flex justify-content-between">
+                                        <span>{emotion}:</span>
+                                        <span>{(confidence * 100).toFixed(1)}%</span>
+                                      </div>
+                                    ))}
+                                </div>
+                              </details>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </Col>
                   </Row>

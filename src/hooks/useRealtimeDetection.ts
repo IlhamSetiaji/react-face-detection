@@ -10,6 +10,7 @@ export const useRealtimeDetection = () => {
   const [detectionResult, setDetectionResult] = useState<DetectionResult | null>(null);
   const [isDetecting, setIsDetecting] = useState(false);
   const [currentConfidence, setCurrentConfidence] = useState(0.5);
+  const [emotionsEnabled, setEmotionsEnabled] = useState(true);
   const [fps, setFps] = useState(0);
 
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -139,6 +140,14 @@ export const useRealtimeDetection = () => {
         ctx.font = '16px Arial';
         const label = `${(face.confidence * 100).toFixed(1)}%`;
         ctx.fillText(label, x, y - 5);
+        
+        // Draw emotion label if available
+        if (face.emotion) {
+          ctx.fillStyle = '#ffff00'; // Yellow for emotion
+          ctx.font = '14px Arial';
+          const emotionLabel = `${face.emotion.dominant_emotion} (${(face.emotion.confidence * 100).toFixed(0)}%)`;
+          ctx.fillText(emotionLabel, x, y + height + 18);
+        }
       });
     }
 
@@ -161,7 +170,8 @@ export const useRealtimeDetection = () => {
       // Detect faces
       const result = await apiService.detectFaces({
         image: imageFile,
-        confidence: currentConfidence
+        confidence: currentConfidence,
+        emotions: emotionsEnabled
       });
 
       setDetectionResult(result);
@@ -255,6 +265,10 @@ export const useRealtimeDetection = () => {
     setCurrentConfidence(confidence);
   }, []);
 
+  const setEmotions = useCallback((enabled: boolean) => {
+    setEmotionsEnabled(enabled);
+  }, []);
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -269,11 +283,13 @@ export const useRealtimeDetection = () => {
     detectionResult,
     isDetecting,
     currentConfidence,
+    emotionsEnabled,
     fps,
     videoRef,
     canvasRef,
     startRealtimeDetection,
     stopRealtimeDetection,
     setConfidence,
+    setEmotions,
   };
 };

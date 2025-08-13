@@ -2,16 +2,18 @@ import { Card, Button, Row, Col, Form } from 'react-bootstrap';
 import type { RefObject } from 'react';
 
 interface RealtimeDetectionViewProps {
-  videoRef: RefObject<HTMLVideoElement>;
-  canvasRef: RefObject<HTMLCanvasElement>;
+  videoRef: RefObject<HTMLVideoElement | null>;
+  canvasRef: RefObject<HTMLCanvasElement | null>;
   isCameraActive: boolean;
   isLoading: boolean;
   isDetecting: boolean;
   currentConfidence: number;
+  emotionsEnabled: boolean;
   fps: number;
   onStartDetection: () => void;
   onStopDetection: () => void;
   onConfidenceChange: (confidence: number) => void;
+  onEmotionsChange: (enabled: boolean) => void;
 }
 
 export const RealtimeDetectionView = ({
@@ -21,10 +23,12 @@ export const RealtimeDetectionView = ({
   isLoading,
   isDetecting,
   currentConfidence,
+  emotionsEnabled,
   fps,
   onStartDetection,
   onStopDetection,
   onConfidenceChange,
+  onEmotionsChange,
 }: RealtimeDetectionViewProps) => {
   return (
     <>
@@ -83,7 +87,7 @@ export const RealtimeDetectionView = ({
 
           {/* Controls */}
           <Row className="g-3">
-            <Col md={6}>
+            <Col md={4}>
               <Form.Group>
                 <Form.Label>
                   Detection Confidence: {(currentConfidence * 100).toFixed(0)}%
@@ -98,7 +102,22 @@ export const RealtimeDetectionView = ({
                 />
               </Form.Group>
             </Col>
-            <Col md={6} className="d-flex align-items-end">
+            <Col md={4}>
+              <Form.Group>
+                <Form.Check
+                  type="switch"
+                  id="emotions-switch"
+                  label="Enable Emotion Detection"
+                  checked={emotionsEnabled}
+                  onChange={(e) => onEmotionsChange(e.target.checked)}
+                  disabled={isDetecting}
+                />
+                <small className="text-muted">
+                  Detect emotions along with faces
+                </small>
+              </Form.Group>
+            </Col>
+            <Col md={4} className="d-flex align-items-end">
               {!isCameraActive ? (
                 <Button
                   variant="success"

@@ -12,6 +12,7 @@ export const useCamera = () => {
   const [annotatedImageUrl, setAnnotatedImageUrl] = useState<string | null>(null);
   const [isDetecting, setIsDetecting] = useState(false);
   const [currentConfidence, setCurrentConfidence] = useState(0.5);
+  const [emotionsEnabled, setEmotionsEnabled] = useState(true);
   const [attemptCount, setAttemptCount] = useState(0);
   
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -107,7 +108,8 @@ export const useCamera = () => {
       const imageFile = new File([imageBlob], 'camera-capture.jpg', { type: 'image/jpeg' });
       const result = await apiService.detectFaces({
         image: imageFile,
-        confidence
+        confidence,
+        emotions: emotionsEnabled
       });
 
       // If we found faces, return the result
@@ -187,7 +189,8 @@ export const useCamera = () => {
             const imageFile = new File([imageBlob], 'camera-capture.jpg', { type: 'image/jpeg' });
             const annotatedBlob = await apiService.detectAndAnnotate({
               image: imageFile,
-              confidence: currentConfidence
+              confidence: currentConfidence,
+              emotions: emotionsEnabled
             });
                         const annotatedUrl = URL.createObjectURL(annotatedBlob);
             setAnnotatedImageUrl(annotatedUrl);
@@ -202,7 +205,11 @@ export const useCamera = () => {
     } finally {
       setIsDetecting(false);
     }
-  }, [isCameraActive, detectWithAutoAdjustment, currentConfidence]);
+  }, [isCameraActive, detectWithAutoAdjustment, currentConfidence, emotionsEnabled]);
+
+  const setEmotions = useCallback((enabled: boolean) => {
+    setEmotionsEnabled(enabled);
+  }, []);
 
   const clearResults = useCallback(() => {
     // Clean up old URLs before clearing using functional updates
@@ -238,11 +245,13 @@ export const useCamera = () => {
     annotatedImageUrl,
     isDetecting,
     currentConfidence,
+    emotionsEnabled,
     attemptCount,
     videoRef,
     startCamera,
     stopCamera,
     captureAndDetect,
+    setEmotions,
     clearResults,
   };
 };
