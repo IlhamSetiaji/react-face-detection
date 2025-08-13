@@ -217,11 +217,11 @@ export const useRealtimeDetection = () => {
       }
     }
 
-    // Continue the loop at a reasonable framerate (30 FPS instead of unlimited)
+    // Continue the loop at a reasonable framerate (120 FPS instead of unlimited)
     if (isDetectingRef.current) {
       setTimeout(() => {
         animationFrameRef.current = requestAnimationFrame(detectionLoop);
-      }, 1000 / 30); // 30 FPS
+      }, 1000 / 120); // 120 FPS
     }
   }, [detectFaces, drawDetectionResults]);
 
