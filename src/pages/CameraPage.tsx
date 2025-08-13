@@ -22,12 +22,14 @@ export const CameraPage = () => {
     isDetecting,
     currentConfidence,
     emotionsEnabled,
+    ageEnabled,
     attemptCount,
     videoRef,
     startCamera,
     stopCamera,
     captureAndDetect,
     setEmotions,
+    setAge,
     clearResults,
   } = useCamera();
 
@@ -65,11 +67,13 @@ export const CameraPage = () => {
                   isDetecting={isDetecting}
                   currentConfidence={currentConfidence}
                   emotionsEnabled={emotionsEnabled}
+                  ageEnabled={ageEnabled}
                   attemptCount={attemptCount}
                   onStartCamera={startCamera}
                   onStopCamera={stopCamera}
                   onCaptureAndDetect={captureAndDetect}
                   onEmotionsChange={setEmotions}
+                  onAgeChange={setAge}
                   onClearResults={clearResults}
                 />
               </Col>

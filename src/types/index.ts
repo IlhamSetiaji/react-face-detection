@@ -19,6 +19,14 @@ export interface EmotionData {
   };
 }
 
+export interface AgeData {
+  estimated_age: number;
+  age_range: {
+    min: number;
+    max: number;
+  };
+}
+
 export interface Face {
   confidence: number;
   bbox: BoundingBox;
@@ -27,6 +35,7 @@ export interface Face {
   area: number;
   landmarks?: boolean;
   emotion?: EmotionData;
+  age?: AgeData;
 }
 
 export interface ImageSize {
@@ -54,4 +63,5 @@ export interface DetectionRequest {
   image: File;
   confidence: number;
   emotions?: boolean;
+  age?: boolean;
 }

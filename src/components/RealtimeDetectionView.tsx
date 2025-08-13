@@ -9,11 +9,13 @@ interface RealtimeDetectionViewProps {
   isDetecting: boolean;
   currentConfidence: number;
   emotionsEnabled: boolean;
+  ageEnabled: boolean;
   fps: number;
   onStartDetection: () => void;
   onStopDetection: () => void;
   onConfidenceChange: (confidence: number) => void;
   onEmotionsChange: (enabled: boolean) => void;
+  onAgeChange: (enabled: boolean) => void;
 }
 
 export const RealtimeDetectionView = ({
@@ -24,11 +26,13 @@ export const RealtimeDetectionView = ({
   isDetecting,
   currentConfidence,
   emotionsEnabled,
+  ageEnabled,
   fps,
   onStartDetection,
   onStopDetection,
   onConfidenceChange,
   onEmotionsChange,
+  onAgeChange,
 }: RealtimeDetectionViewProps) => {
   return (
     <>
@@ -87,7 +91,7 @@ export const RealtimeDetectionView = ({
 
           {/* Controls */}
           <Row className="g-3">
-            <Col md={4}>
+            <Col md={3}>
               <Form.Group>
                 <Form.Label>
                   Detection Confidence: {(currentConfidence * 100).toFixed(0)}%
@@ -102,7 +106,7 @@ export const RealtimeDetectionView = ({
                 />
               </Form.Group>
             </Col>
-            <Col md={4}>
+            <Col md={3}>
               <Form.Group>
                 <Form.Check
                   type="switch"
@@ -117,7 +121,22 @@ export const RealtimeDetectionView = ({
                 </small>
               </Form.Group>
             </Col>
-            <Col md={4} className="d-flex align-items-end">
+            <Col md={3}>
+              <Form.Group>
+                <Form.Check
+                  type="switch"
+                  id="age-switch"
+                  label="Enable Age Detection"
+                  checked={ageEnabled}
+                  onChange={(e) => onAgeChange(e.target.checked)}
+                  disabled={isDetecting}
+                />
+                <small className="text-muted">
+                  Detect age along with faces
+                </small>
+              </Form.Group>
+            </Col>
+            <Col md={3} className="d-flex align-items-end">
               {!isCameraActive ? (
                 <Button
                   variant="success"

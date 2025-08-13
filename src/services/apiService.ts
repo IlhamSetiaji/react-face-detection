@@ -44,6 +44,10 @@ class ApiService {
     if (request.emotions) {
       formData.append('emotions', 'true');
     }
+    
+    if (request.age) {
+      formData.append('age', 'true');
+    }
 
     return this.makeRequest<DetectionResult>('/detect', {
       method: 'POST',
@@ -58,6 +62,10 @@ class ApiService {
     
     if (request.emotions) {
       formData.append('emotions', 'true');
+    }
+    
+    if (request.age) {
+      formData.append('age', 'true');
     }
 
     return this.makeRequestBlob('/detect-and-annotate', {

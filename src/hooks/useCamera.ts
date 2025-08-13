@@ -13,6 +13,7 @@ export const useCamera = () => {
   const [isDetecting, setIsDetecting] = useState(false);
   const [currentConfidence, setCurrentConfidence] = useState(0.5);
   const [emotionsEnabled, setEmotionsEnabled] = useState(true);
+  const [ageEnabled, setAgeEnabled] = useState(false);
   const [attemptCount, setAttemptCount] = useState(0);
   
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -109,7 +110,8 @@ export const useCamera = () => {
       const result = await apiService.detectFaces({
         image: imageFile,
         confidence,
-        emotions: emotionsEnabled
+        emotions: emotionsEnabled,
+        age: ageEnabled
       });
 
       // If we found faces, return the result
@@ -145,7 +147,7 @@ export const useCamera = () => {
     } catch (error) {
       throw error;
     }
-  }, []);
+  }, [emotionsEnabled, ageEnabled]);
 
   const captureAndDetect = useCallback(async () => {
     if (!videoRef.current || !isCameraActive) {
@@ -190,7 +192,8 @@ export const useCamera = () => {
             const annotatedBlob = await apiService.detectAndAnnotate({
               image: imageFile,
               confidence: currentConfidence,
-              emotions: emotionsEnabled
+              emotions: emotionsEnabled,
+              age: ageEnabled
             });
                         const annotatedUrl = URL.createObjectURL(annotatedBlob);
             setAnnotatedImageUrl(annotatedUrl);
@@ -205,10 +208,14 @@ export const useCamera = () => {
     } finally {
       setIsDetecting(false);
     }
-  }, [isCameraActive, detectWithAutoAdjustment, currentConfidence, emotionsEnabled]);
+  }, [isCameraActive, detectWithAutoAdjustment, currentConfidence, emotionsEnabled, ageEnabled]);
 
   const setEmotions = useCallback((enabled: boolean) => {
     setEmotionsEnabled(enabled);
+  }, []);
+
+  const setAge = useCallback((enabled: boolean) => {
+    setAgeEnabled(enabled);
   }, []);
 
   const clearResults = useCallback(() => {
@@ -246,12 +253,14 @@ export const useCamera = () => {
     isDetecting,
     currentConfidence,
     emotionsEnabled,
+    ageEnabled,
     attemptCount,
     videoRef,
     startCamera,
     stopCamera,
     captureAndDetect,
     setEmotions,
+    setAge,
     clearResults,
   };
 };

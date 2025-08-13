@@ -5,6 +5,7 @@ import {
   ImageUpload,
   ConfidenceSlider,
   EmotionToggle,
+  AgeToggle,
   ActionButtons,
   DetectionResults,
   AnnotatedImage,
@@ -20,10 +21,12 @@ export const UploadPage = () => {
     previewUrl,
     confidence,
     emotionsEnabled,
+    ageEnabled,
     detectionResult,
     annotatedImageUrl,
     setConfidence,
     setEmotionsEnabled,
+    setAgeEnabled,
     handleFileSelect,
     detectFaces,
     detectAndAnnotate,
@@ -69,6 +72,12 @@ export const UploadPage = () => {
                 <EmotionToggle
                   emotionsEnabled={emotionsEnabled}
                   onEmotionsChange={setEmotionsEnabled}
+                  disabled={isLoading}
+                />
+
+                <AgeToggle
+                  ageEnabled={ageEnabled}
+                  onAgeChange={setAgeEnabled}
                   disabled={isLoading}
                 />
 

@@ -11,6 +11,7 @@ export const useRealtimeDetection = () => {
   const [isDetecting, setIsDetecting] = useState(false);
   const [currentConfidence, setCurrentConfidence] = useState(0.5);
   const [emotionsEnabled, setEmotionsEnabled] = useState(true);
+  const [ageEnabled, setAgeEnabled] = useState(true);
   const [fps, setFps] = useState(0);
 
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -148,6 +149,15 @@ export const useRealtimeDetection = () => {
           const emotionLabel = `${face.emotion.dominant_emotion} (${(face.emotion.confidence * 100).toFixed(0)}%)`;
           ctx.fillText(emotionLabel, x, y + height + 18);
         }
+        
+        // Draw age label if available
+        if (face.age) {
+          ctx.fillStyle = '#00ffff'; // Cyan for age
+          ctx.font = '14px Arial';
+          const ageLabel = `Age: ${Math.round(face.age.estimated_age)} (${face.age.age_range.min}-${face.age.age_range.max})`;
+          const ageY = face.emotion ? y + height + 36 : y + height + 18; // Position below emotion if both exist
+          ctx.fillText(ageLabel, x, ageY);
+        }
       });
     }
 
@@ -171,7 +181,8 @@ export const useRealtimeDetection = () => {
       const result = await apiService.detectFaces({
         image: imageFile,
         confidence: currentConfidence,
-        emotions: emotionsEnabled
+        emotions: emotionsEnabled,
+        age: ageEnabled
       });
 
       setDetectionResult(result);
@@ -269,6 +280,10 @@ export const useRealtimeDetection = () => {
     setEmotionsEnabled(enabled);
   }, []);
 
+  const setAge = useCallback((enabled: boolean) => {
+    setAgeEnabled(enabled);
+  }, []);
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -284,6 +299,7 @@ export const useRealtimeDetection = () => {
     isDetecting,
     currentConfidence,
     emotionsEnabled,
+    ageEnabled,
     fps,
     videoRef,
     canvasRef,
@@ -291,5 +307,6 @@ export const useRealtimeDetection = () => {
     stopRealtimeDetection,
     setConfidence,
     setEmotions,
+    setAge,
   };
 };

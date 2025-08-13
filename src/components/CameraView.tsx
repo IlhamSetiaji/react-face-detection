@@ -1,5 +1,6 @@
 import { Card, Button, Alert, Badge } from 'react-bootstrap';
 import { EmotionToggle } from './EmotionToggle';
+import { AgeToggle } from './AgeToggle';
 
 interface CameraViewProps {
   videoRef: React.RefObject<HTMLVideoElement | null>;
@@ -8,11 +9,13 @@ interface CameraViewProps {
   isDetecting: boolean;
   currentConfidence: number;
   emotionsEnabled: boolean;
+  ageEnabled: boolean;
   attemptCount: number;
   onStartCamera: () => void;
   onStopCamera: () => void;
   onCaptureAndDetect: () => void;
   onEmotionsChange: (enabled: boolean) => void;
+  onAgeChange: (enabled: boolean) => void;
   onClearResults: () => void;
 }
 
@@ -23,11 +26,13 @@ export const CameraView = ({
   isDetecting,
   currentConfidence,
   emotionsEnabled,
+  ageEnabled,
   attemptCount,
   onStartCamera,
   onStopCamera,
   onCaptureAndDetect,
   onEmotionsChange,
+  onAgeChange,
   onClearResults,
 }: CameraViewProps) => {
   return (
@@ -67,11 +72,18 @@ export const CameraView = ({
           
           {isCameraActive ? (
             <div>
-              <EmotionToggle
-                emotionsEnabled={emotionsEnabled}
-                onEmotionsChange={onEmotionsChange}
-                disabled={isDetecting}
-              />
+              <div className="d-flex justify-content-center gap-3 mb-3">
+                <EmotionToggle
+                  emotionsEnabled={emotionsEnabled}
+                  onEmotionsChange={onEmotionsChange}
+                  disabled={isDetecting}
+                />
+                <AgeToggle
+                  ageEnabled={ageEnabled}
+                  onAgeChange={onAgeChange}
+                  disabled={isDetecting}
+                />
+              </div>
               
               <div className="d-flex justify-content-center gap-2 mb-3">
                 <Button

@@ -92,6 +92,14 @@ export const DetectionResults = ({ result }: DetectionResultsProps) => {
                             </div>
                           </div>
                         )}
+                        {face.age && (
+                          <div className="mt-2">
+                            <div className="text-info">
+                              <i className="bi bi-calendar-event me-1"></i>
+                              <strong>Age:</strong> {Math.round(face.age.estimated_age)} years old ({face.age.age_range.min}-{face.age.age_range.max})
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </Col>
                   </Row>
