@@ -8,3 +8,4 @@ export { ErrorAlert } from './ErrorAlert';
 export { Navigation } from './Navigation';
 export { CameraView } from './CameraView';
 export { CapturedImage } from './CapturedImage';
+export { RealtimeDetectionView } from './RealtimeDetectionView';
