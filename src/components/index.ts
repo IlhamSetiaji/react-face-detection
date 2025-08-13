@@ -1,6 +1,7 @@
 export { ServerStatusComponent } from './ServerStatus';
 export { ImageUpload } from './ImageUpload';
 export { ConfidenceSlider } from './ConfidenceSlider';
+export { EmotionToggle } from './EmotionToggle';
 export { ActionButtons } from './ActionButtons';
 export { DetectionResults } from './DetectionResults';
 export { AnnotatedImage } from './AnnotatedImage';

@@ -4,6 +4,7 @@ import {
   ServerStatusComponent,
   ImageUpload,
   ConfidenceSlider,
+  EmotionToggle,
   ActionButtons,
   DetectionResults,
   AnnotatedImage,
@@ -18,9 +19,11 @@ export const UploadPage = () => {
     selectedFile,
     previewUrl,
     confidence,
+    emotionsEnabled,
     detectionResult,
     annotatedImageUrl,
     setConfidence,
+    setEmotionsEnabled,
     handleFileSelect,
     detectFaces,
     detectAndAnnotate,
@@ -60,6 +63,12 @@ export const UploadPage = () => {
                 <ConfidenceSlider
                   value={confidence}
                   onChange={setConfidence}
+                  disabled={isLoading}
+                />
+
+                <EmotionToggle
+                  emotionsEnabled={emotionsEnabled}
+                  onEmotionsChange={setEmotionsEnabled}
                   disabled={isLoading}
                 />
 

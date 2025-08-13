@@ -40,6 +40,10 @@ class ApiService {
     const formData = new FormData();
     formData.append('image', request.image);
     formData.append('confidence', request.confidence.toString());
+    
+    if (request.emotions) {
+      formData.append('emotions', 'true');
+    }
 
     return this.makeRequest<DetectionResult>('/detect', {
       method: 'POST',
@@ -51,6 +55,10 @@ class ApiService {
     const formData = new FormData();
     formData.append('image', request.image);
     formData.append('confidence', request.confidence.toString());
+    
+    if (request.emotions) {
+      formData.append('emotions', 'true');
+    }
 
     return this.makeRequestBlob('/detect-and-annotate', {
       method: 'POST',

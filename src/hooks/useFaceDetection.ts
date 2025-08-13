@@ -9,6 +9,7 @@ export const useFaceDetection = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [confidence, setConfidence] = useState(0.5);
+  const [emotionsEnabled, setEmotionsEnabled] = useState(true);
   const [detectionResult, setDetectionResult] = useState<DetectionResult | null>(null);
   const [annotatedImageUrl, setAnnotatedImageUrl] = useState<string | null>(null);
 
@@ -52,6 +53,7 @@ export const useFaceDetection = () => {
       const result = await apiService.detectFaces({
         image: selectedFile,
         confidence,
+        emotions: emotionsEnabled,
       });
       setDetectionResult(result);
     } catch (error) {
@@ -59,7 +61,7 @@ export const useFaceDetection = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [selectedFile, confidence]);
+  }, [selectedFile, confidence, emotionsEnabled]);
 
   const detectAndAnnotate = useCallback(async () => {
     if (!selectedFile) {
@@ -75,6 +77,7 @@ export const useFaceDetection = () => {
       const blob = await apiService.detectAndAnnotate({
         image: selectedFile,
         confidence,
+        emotions: emotionsEnabled,
       });
       const url = URL.createObjectURL(blob);
       setAnnotatedImageUrl(url);
@@ -83,7 +86,7 @@ export const useFaceDetection = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [selectedFile, confidence]);
+  }, [selectedFile, confidence, emotionsEnabled]);
 
   useEffect(() => {
     checkServerStatus();
@@ -107,9 +110,11 @@ export const useFaceDetection = () => {
     selectedFile,
     previewUrl,
     confidence,
+    emotionsEnabled,
     detectionResult,
     annotatedImageUrl,
     setConfidence,
+    setEmotionsEnabled,
     handleFileSelect,
     detectFaces,
     detectAndAnnotate,

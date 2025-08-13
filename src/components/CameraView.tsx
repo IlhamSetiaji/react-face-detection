@@ -1,4 +1,5 @@
 import { Card, Button, Alert, Badge } from 'react-bootstrap';
+import { EmotionToggle } from './EmotionToggle';
 
 interface CameraViewProps {
   videoRef: React.RefObject<HTMLVideoElement | null>;
@@ -6,10 +7,12 @@ interface CameraViewProps {
   isLoading: boolean;
   isDetecting: boolean;
   currentConfidence: number;
+  emotionsEnabled: boolean;
   attemptCount: number;
   onStartCamera: () => void;
   onStopCamera: () => void;
   onCaptureAndDetect: () => void;
+  onEmotionsChange: (enabled: boolean) => void;
   onClearResults: () => void;
 }
 
@@ -19,10 +22,12 @@ export const CameraView = ({
   isLoading,
   isDetecting,
   currentConfidence,
+  emotionsEnabled,
   attemptCount,
   onStartCamera,
   onStopCamera,
   onCaptureAndDetect,
+  onEmotionsChange,
   onClearResults,
 }: CameraViewProps) => {
   return (
@@ -62,6 +67,12 @@ export const CameraView = ({
           
           {isCameraActive ? (
             <div>
+              <EmotionToggle
+                emotionsEnabled={emotionsEnabled}
+                onEmotionsChange={onEmotionsChange}
+                disabled={isDetecting}
+              />
+              
               <div className="d-flex justify-content-center gap-2 mb-3">
                 <Button
                   variant="primary"

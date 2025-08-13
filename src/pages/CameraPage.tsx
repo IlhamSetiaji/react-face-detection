@@ -21,11 +21,13 @@ export const CameraPage = () => {
     annotatedImageUrl,
     isDetecting,
     currentConfidence,
+    emotionsEnabled,
     attemptCount,
     videoRef,
     startCamera,
     stopCamera,
     captureAndDetect,
+    setEmotions,
     clearResults,
   } = useCamera();
 
@@ -62,10 +64,12 @@ export const CameraPage = () => {
                   isLoading={isLoading}
                   isDetecting={isDetecting}
                   currentConfidence={currentConfidence}
+                  emotionsEnabled={emotionsEnabled}
                   attemptCount={attemptCount}
                   onStartCamera={startCamera}
                   onStopCamera={stopCamera}
                   onCaptureAndDetect={captureAndDetect}
+                  onEmotionsChange={setEmotions}
                   onClearResults={clearResults}
                 />
               </Col>

@@ -5,6 +5,20 @@ export interface BoundingBox {
   y2: number;
 }
 
+export interface EmotionData {
+  dominant_emotion: string;
+  confidence: number;
+  all_emotions: {
+    happy: number;
+    neutral: number;
+    surprise: number;
+    sad: number;
+    angry: number;
+    fear: number;
+    disgust: number;
+  };
+}
+
 export interface Face {
   confidence: number;
   bbox: BoundingBox;
@@ -12,6 +26,7 @@ export interface Face {
   height: number;
   area: number;
   landmarks?: boolean;
+  emotion?: EmotionData;
 }
 
 export interface ImageSize {
@@ -38,4 +53,5 @@ export interface ApiError {
 export interface DetectionRequest {
   image: File;
   confidence: number;
+  emotions?: boolean;
 }
